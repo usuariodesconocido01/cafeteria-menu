@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menú Panes - Cafetería El Buen Sabor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #fff8f0;
+      color: #4b2e2e;
+    }
+
+    header , footer{
+      background-color: #6b4f3b;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    main {
+      display: flex;
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .menu {
+      flex: 2;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      border-bottom: 2px solid #d8c3a5;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      color: #3e2723;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* Productos con efecto hover animado */
+    .producto {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 10px;
+      border-bottom: 1px dashed #e0dcd0;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border-radius: 4px;
+      user-select: none;
+    }
+    .producto:hover {
+      background-color: #f4e3d2;
+      transform: scale(1.03);
+    }
+    .producto span.price {
+      font-weight: bold;
+      color: #5d4037;
+    }
+
+    /* Orden de pago a la derecha */
+    .orden-pago {
+      flex: 1;
+      background-color: #d8c3a5;
+      color: #5d4037;
+      padding: 20px;
+      border-radius: 8px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .orden-pago h2 {
+      border: none;
+      margin-bottom: 15px;
+      color: #3e2723;
+    }
+
+    /* Item en la orden con cantidad, nombre, precio y botón eliminar */
+    .orden-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      background-color: #f7f1e1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+      position: relative;
+      gap: 8px;
+    }
+
+    /* Caja de cantidad editable */
+    .cantidad-input {
+      width: 50px;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      font-weight: bold;
+      text-align: center;
+      transition: border-color 0.3s ease;
+      cursor: pointer;
+    }
+    .cantidad-input:focus {
+      border-color: #6b4f3b;
+      outline: none;
+      background-color: #fff3e0;
+      box-shadow: 0 0 8px #6b4f3baa;
+    }
+
+    /* Nombre producto ocupa el espacio restante */
+    .nombre-producto {
+      flex-grow: 1;
+      font-weight: 600;
+      color: #4b2e2e;
+      user-select: none;
+    }
+
+    /* Precio en orden */
+    .precio-orden {
+      font-weight: bold;
+      margin-left: 10px;
+      color: #5d4037;
+      min-width: 50px;
+      text-align: right;
+    }
+
+    /* Botón eliminar (X) */
+    .btn-eliminar {
+      background-color: transparent;
+      border: none;
+      color: #a53d3d;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.2s ease;
+      user-select: none;
+    }
+    .btn-eliminar:hover {
+      color: #d9534f;
+      transform: scale(1.3);
+    }
+
+    /* Total */
+    .total {
+      border-top: 2px solid #5d4037;
+      padding-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: left;
+      user-select: none;
+    }
+
+    /* Botón continuar con animación */
+    .btn-continuar {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #6b4f3b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .btn-continuar:hover {
+      background-color: #7e5c44;
+      box-shadow: 0 0 10px #7e5c44aa;
+    }
+
+    /* Responsive para móvil */
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+      .orden-pago {
+        position: static;
+        margin-top: 30px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Menú de Panes - Cafetería El Buen Sabor</h1>
+    <p>Prueba nuestra variedad fresca y artesanal 🥖🍞</p>
+  </header>
+
+  <main>
+    <div class="menu">
+      <section>
+        <h2>Panes Tradicionales 🥖</h2>
+        <ul>
+          <li class="producto" data-nombre="Baguette Francesa" data-precio="25"><span>Baguette Francesa</span> <span class="price">$25</span></li>
+          <li class="producto" data-nombre="Bolillo Blanco" data-precio="10"><span>Bolillo Blanco</span> <span class="price">$10</span></li>
+          <li class="producto" data-nombre="Concha de Vainilla" data-precio="15"><span>Concha de Vainilla</span> <span class="price">$15</span></li>
+          <li class="producto" data-nombre="Telera" data-precio="12"><span>Telera</span> <span class="price">$12</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Panes Dulces 🍞</h2>
+        <ul>
+          <li class="producto" data-nombre="Panqué de Nuez" data-precio="30"><span>Panqué de Nuez</span> <span class="price">$30</span></li>
+          <li class="producto" data-nombre="Roles de Canela" data-precio="28"><span>Roles de Canela</span> <span class="price">$28</span></li>
+          <li class="producto" data-nombre="Orejas" data-precio="20"><span>Orejas</span> <span class="price">$20</span></li>
+          <li class="producto" data-nombre="Churros" data-precio="25"><span>Churros</span> <span class="price">$25</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Panes Especiales 🌾</h2>
+        <ul>
+          <li class="producto" data-nombre="Pain au Chocolat" data-precio="35"><span>Pain au Chocolat</span> <span class="price">$35</span></li>
+          <li class="producto" data-nombre="Pan de Centeno" data-precio="40"><span>Pan de Centeno</span> <span class="price">$40</span></li>
+          <li class="producto" data-nombre="Pan Integral" data-precio="38"><span>Pan Integral</span> <span class="price">$38</span></li>
+          <li class="producto" data-nombre="Focaccia con Hierbas" data-precio="45"><span>Focaccia con Hierbas</span> <span class="price">$45</span></li>
+        </ul>
+      </section>
+    </div>
+
+    <aside class="orden-pago">
+      <h2>Orden de Pago</h2>
+      <div id="orden-items"></div>
+      <div class="total">Total: $0 </div>
+      <button class="btn-continuar">Continuar</button>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Cafetería El Buen Sabor | Hecho con ♥ en tu barrio</p>
+  </footer>
+
+  <script>
+    const menuProductos = document.querySelectorAll('.producto');
+    const ordenItemsContainer = document.getElementById('orden-items');
+    const totalDisplay = document.querySelector('.total');
+
+    // Objeto para guardar productos en la orden
+    const orden = {};
+
+    // Función para actualizar total
+    function actualizarTotal() {
+      let total = 0;
+      for (const key in orden) {
+        total += orden[key].precio * orden[key].cantidad;
+      }
+      totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+    }
+
+    // Función para crear un elemento de orden en la interfaz
+    function crearOrdenItem(nombre, precio, cantidad) {
+      const item = document.createElement('div');
+      item.classList.add('orden-item');
+
+      // Input cantidad
+      const inputCantidad = document.createElement('input');
+      inputCantidad.type = 'number';
+      inputCantidad.min = '1';
+      inputCantidad.value = cantidad;
+      inputCantidad.classList.add('cantidad-input');
+      inputCantidad.title = 'Cambiar cantidad';
+
+      // Nombre producto
+      const nombreProd = document.createElement('div');
+      nombreProd.textContent = nombre;
+      nombreProd.classList.add('nombre-producto');
+
+      // Precio total para ese producto (precio * cantidad)
+      const precioProd = document.createElement('div');
+      precioProd.classList.add('precio-orden');
+      precioProd.textContent = `$${(precio * cantidad).toFixed(2)}`;
+
+      // Botón eliminar
+      const btnEliminar = document.createElement('button');
+      btnEliminar.textContent = '×';
+      btnEliminar.classList.add('btn-eliminar');
+      btnEliminar.title = 'Eliminar producto';
+
+      // Eventos
+      inputCantidad.addEventListener('change', () => {
+        let val = parseInt(inputCantidad.value);
+        if (isNaN(val) || val < 1) {
+          val = 1;
+          inputCantidad.value = val;
+        }
+        orden[nombre].cantidad = val;
+        precioProd.textContent = `$${(precio * val).toFixed(2)}`;
+        actualizarTotal();
+      });
+
+      btnEliminar.addEventListener('click', () => {
+        delete orden[nombre];
+        ordenItemsContainer.removeChild(item);
+        actualizarTotal();
+      });
+
+      item.appendChild(inputCantidad);
+      item.appendChild(nombreProd);
+      item.appendChild(precioProd);
+      item.appendChild(btnEliminar);
+
+      return item;
+    }
+
+    // Al hacer clic en un producto, se añade o incrementa en la orden
+    menuProductos.forEach(producto => {
+      producto.addEventListener('click', () => {
+        const nombre = producto.dataset.nombre;
+        const precio = parseFloat(producto.dataset.precio);
+
+        if (orden[nombre]) {
+          // Incrementar cantidad si ya está en la orden
+          orden[nombre].cantidad++;
+          // Actualizar input y precio en la interfaz
+          const items = ordenItemsContainer.querySelectorAll('.orden-item');
+          items.forEach(item => {
+            if (item.querySelector('.nombre-producto').textContent === nombre) {
+              const input = item.querySelector('.cantidad-input');
+              const precioDiv = item.querySelector('.precio-orden');
+              input.value = orden[nombre].cantidad;
+              precioDiv.textContent = `$${(precio * orden[nombre].cantidad).toFixed(2)}`;
+            }
+          });
+        } else {
+          // Nuevo producto en la orden
+          orden[nombre] = { precio: precio, cantidad: 1 };
+          const nuevoItem = crearOrdenItem(nombre, precio, 1);
+          ordenItemsContainer.appendChild(nuevoItem);
+        }
+        actualizarTotal();
+      });
+    });
+  </script>
+
+</body>
+</html>
